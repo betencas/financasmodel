@@ -165,10 +165,6 @@ elif sector == 'Privado':
 
 if st.button('Previsão'):
     X["predict"] = rforest.predict(X)
-    X["predict_text"] = X["predict"].apply(lambda x: "Aprovado" if x == 1 else "Não Aprovado")
+    X["predict_text"] = X["predict"].apply(lambda x: "É provável que o processo seja finalizado com sucesso." if x == 1 else "É provável que o processo não seja aprovado.")
     st.write(X["predict_text"][0])
-    st.write(X)
-
-
-
-
+  
