@@ -22,7 +22,7 @@ X = pd.DataFrame({'Financiamento': 0, 'Age': 0, 'Children': 0, 'YearsEmpl' : 0, 
                   'JobType_outro':0, 'JobType_recibos-verdes':0, 'JobType_vive-rendimentos':0,
                   'JobSector_0':0, 'JobSector_privado':0, 'JobSector_publico':0},index=[0])
 
-st.title('Dr. Finanças - Previsão de Aprovação de Crédito Habitação')
+st.title('Previsão de Aprovação de Crédito Habitação')
 
 #INPUT PART
 
