@@ -1,2 +1,2 @@
 # financasmodel
-prediction if client gets credit approval or not
+model prediction if customer gets credit approval or not
