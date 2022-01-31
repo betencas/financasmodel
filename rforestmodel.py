@@ -45,7 +45,7 @@ X["Income"] = salario
 source = st.selectbox(
     'Source do Paciente:',
     ('Google Ads', 'Facebook Ads', 'Orgânico', 'Suporte', 'Recomendação', 'MGM','DR',
-    'REE','Outros'))
+     'REE','Outros'))
 
 if source == 'Google Ads':
     X['source_adw'] = 1
@@ -71,8 +71,8 @@ elif source == 'Outros':
 operation = st.selectbox(
     'Tipo de Operação:',
     ('Aquisição de novo imóvel',
-    'Auto-Construção','Principal Habitação', 'Habitação Secundária', 'MO',
-    'Obras','Compra de Terreno', 'Transferência','Outros'))
+     'Auto-Construção','Principal Habitação', 'Habitação Secundária', 'MO',
+     'Obras','Compra de Terreno', 'Transferência','Outros'))
 
 if operation == 'Aquisição de novo imóvel':
     X['Operação_Aquisição de novo imóvel com Crédito Habitação'] = 1
@@ -108,9 +108,9 @@ elif gender == 'Feminino':
 civil = st.selectbox(
     'Estado Civil:',
     ('N/R','Separado/a',
-    'Casado/a - Comunhão de adquiridos',
-    'Casado/a - Comunhão geral', 'Divorciado/a',
-    'Solteiro/a', 'União de Facto', 'Viúvo/a'))
+     'Casado/a - Comunhão de adquiridos',
+     'Casado/a - Comunhão geral', 'Divorciado/a',
+     'Solteiro/a', 'União de Facto', 'Viúvo/a'))
 if civil == 'Separado/a':
     X['CivilStatus_Separado'] = 1
 elif civil == 'Casado/a - Comunhão de adquiridos':
@@ -131,7 +131,7 @@ elif civil == 'Viúvo/a':
 trabalho = st.selectbox(
     'Tipo de trabalho:',
     ('N/R','Conta de Outrem','Reformado/a', 'Desempregado/a', 'Empresário/a', 'Profissional Liberal',
-    'Recibos Verdes', 'Vive dos Rendimentos', 'Outros'))
+     'Recibos Verdes', 'Vive dos Rendimentos', 'Outros'))
 if trabalho == 'Conta de Outrem':
     X['JobType_Contra de Outrem'] = 1
 elif trabalho == 'Reformado/a':
@@ -160,11 +160,15 @@ elif sector == 'Privado':
     X['JobSector_privado'] = 1
 #Sector end
 
-
 #PREDICTION PART
 
 if st.button('Previsão'):
-    X["predict"] = rforest.predict(X)
-    X["predict_text"] = X["predict"].apply(lambda x: "É provável que o processo seja finalizado com sucesso." if x == 1 else "É provável que o processo não seja aprovado.")
-    st.write(X["predict_text"][0])
-  
+    predict_proba = pd.DataFrame(rforest.predict_proba(X))
+    X["predict"]  = rforest.predict(X)
+    X["predict_text"] = X["predict"].apply(lambda x: "ser aprovado." if x == 1 else "não ser aprovado.")
+    if predict_proba[1][0] == 0:
+        st.write('O pedido de financiamento tem 0.1 % de probabilidade de ser aprovado.')
+    elif predict_proba[1][0] == 1:
+        st.write('O pedido de financiamento tem 99.9 % de probabilidade de ser aprovado.')
+    else:
+        st.write('O pedido de financiamento tem', round((predict_proba[1][0]) * 100), '% de probabilidade de ser aprovado.')
